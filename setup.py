@@ -57,40 +57,6 @@ def create_directories():
     
     print("✅ Directories created!")
 
-def init_collections():
-    """Initialize Qdrant collections"""
-    from qdrant_client import QdrantClient
-    from config import Config
-    
-    client = QdrantClient(url=Config.QDRANT_URL, api_key=Config.QDRANT_API_KEY)
-    
-    # Initialize text collection
-    try:
-        client.create_collection(
-            collection_name=Config.TEXT_COLLECTION_NAME,
-            vectors_config={
-                "text_vector": dict(
-                    size=Config.VECTOR_SIZE,
-                    distance="Cosine"
-                )
-            }
-        )
-        print(f"✅ Created text collection: {Config.TEXT_COLLECTION_NAME}")
-    except Exception as e:
-        print(f"ℹ️ Text collection already exists or error: {str(e)}")
-    
-    # Initialize images collection
-    try:
-        client.create_collection(
-            collection_name=Config.IMAGES_COLLECTION_NAME,
-            vectors_config={
-                "image_vector": dict(size=Config.IMAGE_VECTOR_SIZE, distance="Cosine")
-            }
-        )
-        print(f"✅ Created images collection: {Config.IMAGES_COLLECTION_NAME}")
-    except Exception as e:
-        print(f"ℹ️ Images collection already exists or error: {str(e)}")
-
 def main():
     """Main setup function"""
     print("🚀 Setting up RAG Chatbot Pipeline...\n")
@@ -105,9 +71,6 @@ def main():
     
     # Step 3: Create directories
     create_directories()
-    
-    # Step 4: Initialize collections
-    init_collections()
     
     print("\n🎉 Setup completed successfully!")
     print("\nTo start the application:")
